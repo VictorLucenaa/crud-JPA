@@ -1,18 +1,20 @@
 package org.example;
 
+import com.sun.net.httpserver.HttpServer;
+import org.example.server.ProductHandler;
+import org.example.services.ProductRepository;
 
-import org.example.services.ProductService;
+import java.net.InetSocketAddress;
 
 public class App
 {
     public static void main( String[] args ) throws Exception {
-        ProductService produtoService = new ProductService();
 
-//        Product product = new Product("queijo", "gouda", 20.00);
-//      produtoService.createProduct(product);
+        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+        server.createContext("/products", new ProductHandler());
+        server.setExecutor(null);
+        server.start();
 
-        produtoService.getAllProducts();
-        produtoService.getProduct(Long.parseLong("2"));
-        produtoService.removeProduct(Long.parseLong("1"));
+
     }
 }
